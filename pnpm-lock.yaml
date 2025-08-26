@@ -47,6 +47,9 @@ importers:
       i18next:
         specifier: ^23.16.3
         version: 23.16.3
+      jwt-decode:
+        specifier: ^4.0.0
+        version: 4.0.0
       lucide-react:
         specifier: ^0.452.0
         version: 0.452.0(react@19.0.0)
@@ -90,6 +93,9 @@ importers:
       '@tailwindcss/postcss':
         specifier: ^4.0.9
         version: 4.0.9
+      '@types/jwt-decode':
+        specifier: ^3.1.0
+        version: 3.1.0
       '@types/node':
         specifier: ^22.7.5
         version: 22.7.5
@@ -1123,6 +1129,10 @@ packages:
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
 
+  '@types/jwt-decode@3.1.0':
+    resolution: {integrity: sha512-tthwik7TKkou3mVnBnvVuHnHElbjtdbM63pdBCbZTirCt3WAdM73Y79mOri7+ljsS99ZVwUFZHLMxJuJnv/z1w==}
+    deprecated: This is a stub types definition. jwt-decode provides its own type definitions, so you do not need this installed.
+
   '@types/node@22.7.5':
     resolution: {integrity: sha512-jML7s2NAzMWc//QSJ1a3prpk78cOPchGvXJsC3C6R6PSMoooztvRVQEz89gmBTBY1SPMaqo5teB4uNHPdetShQ==}
 
@@ -1574,6 +1584,10 @@ packages:
 
   json-stable-stringify-without-jsonify@1.0.1:
     resolution: {integrity: sha512-Bdboy+l7tA3OGW6FjyFHWkP5LuByj1Tk33Ljyq0axyzdk9//JSi2u3fP1QSmd1KNwq6VOKYGlAu87CisVir6Pw==}
+
+  jwt-decode@4.0.0:
+    resolution: {integrity: sha512-+KJGIyHgkGuIq3IEBNftfhW/LfWhXUIY6OmyVWjliu5KH1y0fw7VQ8YndE2O4qZdMSd9SqbnC8GOcZEy0Om7sA==}
+    engines: {node: '>=18'}
 
   keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
@@ -2829,6 +2843,10 @@ snapshots:
 
   '@types/json-schema@7.0.15': {}
 
+  '@types/jwt-decode@3.1.0':
+    dependencies:
+      jwt-decode: 4.0.0
+
   '@types/node@22.7.5':
     dependencies:
       undici-types: 6.19.8
@@ -3307,6 +3325,8 @@ snapshots:
   json-schema-traverse@0.4.1: {}
 
   json-stable-stringify-without-jsonify@1.0.1: {}
+
+  jwt-decode@4.0.0: {}
 
   keyv@4.5.4:
     dependencies:

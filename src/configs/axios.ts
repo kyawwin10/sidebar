@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { AxiosResponse, InternalAxiosRequestConfig } from "axios";
 
-axios.defaults.baseURL = 'https://dummyjson.com/';
+axios.defaults.baseURL = 'https://localhost:7108/api/';
 
 // Add a request interceptor
 axios.interceptors.request.use(
