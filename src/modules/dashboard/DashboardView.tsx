@@ -91,7 +91,7 @@ const donutData = useMemo(() => ({
 
       {/* Metric Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card>
+        <Card className="bg-white/10 backdrop-blur-lg border-none rounded-2xl shadow-lg shadow-pink-900/10">
           <CardHeader>
             <CardTitle>Total Revenue</CardTitle>
           </CardHeader>
@@ -102,7 +102,7 @@ const donutData = useMemo(() => ({
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-white/10 backdrop-blur-lg border-none rounded-2xl shadow-lg shadow-pink-500/10">
           <CardHeader>
             <CardTitle>New Customers</CardTitle>
           </CardHeader>
@@ -111,7 +111,7 @@ const donutData = useMemo(() => ({
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-white/10 backdrop-blur-lg border-none rounded-2xl shadow-lg shadow-pink-500/10">
           <CardHeader>
             <CardTitle>Active Accounts</CardTitle>
           </CardHeader>
@@ -120,7 +120,7 @@ const donutData = useMemo(() => ({
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-white/10 backdrop-blur-lg border-none rounded-2xl shadow-lg shadow-pink-500/10">
           <CardHeader>
             <CardTitle>Growth Rate</CardTitle>
           </CardHeader>
@@ -131,8 +131,8 @@ const donutData = useMemo(() => ({
       </div>
 
       {/* Bar Chart + Recent Sales */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <Card>
+      <div className="grid grid-cols-1  lg:grid-cols-2 gap-4">
+        <Card className="bg-white/10 backdrop-blur-lg border-none rounded-2xl shadow-lg shadow-pink-500/10">
           <CardHeader>
             <CardTitle>Bar Chart - Sales</CardTitle>
           </CardHeader>
@@ -141,7 +141,7 @@ const donutData = useMemo(() => ({
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-white/10 backdrop-blur-lg border-none rounded-2xl shadow-lg shadow-pink-500/10">
           <CardHeader>
             <CardTitle>Recent Sales</CardTitle>
           </CardHeader>
@@ -164,8 +164,8 @@ const donutData = useMemo(() => ({
       </div>
 
       {/* Area Chart + Donut */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <Card>
+      <div className="grid grid-cols-1 lg:grid-cols-2  gap-4">
+        <Card className="bg-white/10 backdrop-blur-lg border-none rounded-2xl shadow-lg shadow-pink-500/10">
           <CardHeader>
             <CardTitle>Area Chart - Orders</CardTitle>
           </CardHeader>
@@ -174,7 +174,7 @@ const donutData = useMemo(() => ({
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-white/10 backdrop-blur-lg border-none rounded-2xl shadow-lg shadow-pink-500/10">
           <CardHeader>
             <CardTitle>Order Status</CardTitle>
           </CardHeader>

@@ -1,15 +1,18 @@
 import { useState } from "react";
 import api from "@/api"; // import your API service
+import { useNavigate } from "react-router-dom";
 
 const LoginView = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   // Email/Password login
   const loginMutation = api.auth.login.useMutation({
     onSuccess: (data) => {
       localStorage.setItem("token", data.token);
       alert("Login success ✅");
+      navigate("/", { replace: true });
     },
     onError:() => {
       alert("Login failed ❌");

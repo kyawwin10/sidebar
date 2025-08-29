@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { AxiosResponse, InternalAxiosRequestConfig } from "axios";
+import type {  AxiosResponse, InternalAxiosRequestConfig } from "axios";
 
 axios.defaults.baseURL = 'https://localhost:7108/api/';
 

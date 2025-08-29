@@ -2,21 +2,19 @@
 
 import { Button } from '@/components/ui/button';
 import { Moon, Sun, Bell, User } from 'lucide-react';
-import { SearchCommand } from '@/components/SearchCommand';
 import { useThemeStore } from '@/lib/theme';
 
 export const Navbar = () => {
 	const { theme, toggleTheme } = useThemeStore();
 
 	return (
-		<header className="sticky top-0 z-10 flex items-center justify-between px-4 py-3 border-b border-border bg-background">
+		<header className="sticky top-0 z-10 flex items-center justify-between px-4 py-3 ">
 			<div className="text-lg font-semibold">Dashboard</div>
 
 			<div className="flex items-center gap-4 ml-auto">
-				<SearchCommand />
 
 				<Button variant="ghost" size="icon" onClick={toggleTheme}>
-					{theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+					{theme === 'dark' ?  <Moon size={18} />:<Sun size={18} /> }
 				</Button>
 
 				<Button variant="ghost" size="icon">

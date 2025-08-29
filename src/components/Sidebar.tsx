@@ -1,4 +1,4 @@
-'use client';
+
 
 import { items } from '@/constants';
 import { useSidebarStore } from '@/lib/sidebar';
@@ -12,12 +12,12 @@ export const Sidebar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('token'); // clear JWT token
-    navigate('/login', { replace: true }); // redirect to login
+    navigate('/login' , {replace : true}); // redirect to login
   };
 
   return (
     <aside
-      className={`hidden md:flex h-full flex-col border-r border-border bg-background text-foreground transition-all duration-300 ${
+      className={`hidden md:flex h-full flex-col border-r border-border  text-foreground transition-all duration-300 ${
         isCollapsed ? 'w-[72px]' : 'w-64'
       }`}
     >
@@ -57,7 +57,7 @@ export const Sidebar = () => {
       {/* Footer Logout */}
       <div className="p-2 text-sm text-muted-foreground">
         <button
-          onClick={handleLogout}
+          onClick={() => handleLogout()}
           className={`flex items-center w-full ${
             isCollapsed ? 'justify-center' : 'gap-2'
           } p-2 rounded-md hover:text-red-500 transition`}
