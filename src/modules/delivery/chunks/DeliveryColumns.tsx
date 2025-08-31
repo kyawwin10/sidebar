@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   useReactTable,
   getCoreRowModel,
@@ -10,21 +10,32 @@ import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import api from "@/api";
 import { Order } from "@/api/delivery/types";
-
-// Define columns
-const columns: ColumnDef<Order>[] = [
-  { accessorKey: "orderId", header: "Order ID" },
-  { accessorKey: "userName", header: "Customer" },
-  { accessorKey: "deliveryName", header: "Delivery" },
-  { accessorKey: "orderPlace", header: "Place" },
-  { accessorKey: "totalAmount", header: "Total Amount" },
-  { accessorKey: "paymentType", header: "Payment" },
-  { accessorKey: "paymentStatus", header: "Payment Status" },
-  { accessorKey: "status", header: "Status" },
-];
+import VoucherView from "./VoucherView";
 
 const DeliveryColumns: React.FC = () => {
-  const { data = [], isLoading, error } = api.delivery.useOrdersByStatus("ordered");
+  const { data = [], isLoading, error } = api.delivery.useOrdersByStatus("delivering");
+
+  const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
+
+  const columns: ColumnDef<Order>[] = [
+    { accessorKey: "orderId", header: "Order ID" },
+    { accessorKey: "userName", header: "Customer" },
+    { accessorKey: "deliveryName", header: "Delivery" },
+    { accessorKey: "orderPlace", header: "Place" },
+    { accessorKey: "totalAmount", header: "Total Amount" },
+    { accessorKey: "paymentType", header: "Payment" },
+    { accessorKey: "paymentStatus", header: "Payment Status" },
+    { accessorKey: "status", header: "Status" },
+    {
+      id: "actions",
+      header: "Actions",
+      cell: ({ row }) => (
+        <Button size="sm" onClick={() => setSelectedOrderId(row.original.orderId!)}>
+          Detail
+        </Button>
+      ),
+    },
+  ];
 
   const table = useReactTable({
     data,
@@ -87,6 +98,14 @@ const DeliveryColumns: React.FC = () => {
           Next
         </Button>
       </div>
+
+      {/* Voucher Modal */}
+      {selectedOrderId && (
+        <VoucherView
+          orderId={selectedOrderId}
+          onClose={() => setSelectedOrderId(null)}
+        />
+      )}
     </div>
   );
 };

@@ -13,6 +13,6 @@ export const items = [
   { icon: LayoutDashboard, label: 'Dashboard', href: '/' },
   { icon: Package, label: 'Products', href: '/products' },
   { icon: Truck, label: 'Delivery', href: '/delivery' },
-  { icon: Users, label: 'Users', href: '/users' },
+  { icon: Users, label: 'Users', href: '/user' },
   { icon: List, label: 'Category', href: '/category' }
 ];

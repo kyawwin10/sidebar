@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   useReactTable,
   getCoreRowModel,
@@ -8,23 +8,34 @@ import {
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
-import { Order } from "@/api/delivery/types";
 import api from "@/api";
-
-// Define columns
-const columns: ColumnDef<Order>[] = [
-  { accessorKey: "orderId", header: "Order ID" },
-  { accessorKey: "userName", header: "Customer" },
-  { accessorKey: "deliveryName", header: "Delivery" },
-  { accessorKey: "orderPlace", header: "Place" },
-  { accessorKey: "totalAmount", header: "Total Amount" },
-  { accessorKey: "paymentType", header: "Payment" },
-  { accessorKey: "paymentStatus", header: "Payment Status" },
-  { accessorKey: "status", header: "Status" },
-];
+import { Order } from "@/api/delivery/types";
+import VoucherView from "./VoucherView";
 
 const CancelColumns: React.FC = () => {
-  const { data = [], isLoading, error } = api.delivery.useOrdersByStatus("ordered");
+  const { data = [], isLoading, error } = api.delivery.useOrdersByStatus("rejected");
+
+  const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
+
+  const columns: ColumnDef<Order>[] = [
+    { accessorKey: "orderId", header: "Order ID" },
+    { accessorKey: "userName", header: "Customer" },
+    { accessorKey: "deliveryName", header: "Delivery" },
+    { accessorKey: "orderPlace", header: "Place" },
+    { accessorKey: "totalAmount", header: "Total Amount" },
+    { accessorKey: "paymentType", header: "Payment" },
+    { accessorKey: "paymentStatus", header: "Payment Status" },
+    { accessorKey: "status", header: "Status" },
+    {
+      id: "actions",
+      header: "Actions",
+      cell: ({ row }) => (
+        <Button size="sm" onClick={() => setSelectedOrderId(row.original.orderId!)}>
+          Detail
+        </Button>
+      ),
+    },
+  ];
 
   const table = useReactTable({
     data,
@@ -87,6 +98,14 @@ const CancelColumns: React.FC = () => {
           Next
         </Button>
       </div>
+
+      {/* Voucher Modal */}
+      {selectedOrderId && (
+        <VoucherView
+          orderId={selectedOrderId}
+          onClose={() => setSelectedOrderId(null)}
+        />
+      )}
     </div>
   );
 };

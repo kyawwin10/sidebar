@@ -16,3 +16,30 @@ export interface Order {
   deliFee: number | null;
   paymentStatus: string | null;
 }
+// types/delivery.ts
+
+export interface OrderDetailWithVoucher {
+  orderDetailId: string;
+  productName: string;
+  qty: number;
+  price: number;
+  discountAmount: number;
+  finalPrice: number;
+}
+
+export interface OrderWithVoucherDTO {
+  orderId: string;
+  voucherCode: string | null;
+  discountAmount: number;
+  discountPercent: number;
+  description: string;
+  totalAmount: number;
+  finalAmount: number;
+  orderDetails: OrderDetailWithVoucher[];
+}
+
+export interface ApiResponse<T> {
+  status: number;
+  message: string;
+  data: T;
+}

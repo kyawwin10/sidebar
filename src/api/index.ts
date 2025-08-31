@@ -3,6 +3,7 @@ import * as products from "./products";
 import * as todos from "./todos";
 import * as dashboard from "./dashboard";
 import * as delivery from "./delivery";
+import * as user from "./user";
 
 class API {
   auth: typeof auth;
@@ -10,6 +11,7 @@ class API {
   todos: typeof todos;
   dashboard: typeof dashboard;
   delivery: typeof delivery;
+  user: typeof user;
 
   constructor() {
     this.auth = auth;
@@ -17,6 +19,7 @@ class API {
     this.todos = todos;
     this.dashboard = dashboard;
     this.delivery = delivery;
+    this.user = user;
   }
 }
 
