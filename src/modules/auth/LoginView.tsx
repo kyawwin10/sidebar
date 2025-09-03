@@ -41,38 +41,38 @@ const LoginView = () => {
   });
 
   // Forgot password
-  const forgotPasswordMutation = api.auth.forgotPassword.useMutation({
-    onSuccess: () => toast.success("Check your email for OTP 🔑", {
-      position: "top-right",
-      duration: 3000,
-      style: {
-        background: "rgba(255, 255, 255, 0.1)",
-        backdropFilter: "blur(8px)",
-        border: "1px solid rgba(255, 255, 255, 0.2)",
-        color: "#fff",
-        borderRadius: "8px",
-      },
-    }),
-    onError: () => toast.error("Failed to send OTP ❌", {
-      position: "top-right",
-      duration: 3000,
-      style: {
-        background: "rgba(255, 255, 255, 0.1)",
-        backdropFilter: "blur(8px)",
-        border: "1px solid rgba(255, 255, 255, 0.2)",
-        color: "#fff",
-        borderRadius: "8px",
-      },
-    }),
-  });
+  // const forgotPasswordMutation = api.auth.forgotPassword.useMutation({
+  //   onSuccess: () => toast.success("Check your email for OTP 🔑", {
+  //     position: "top-right",
+  //     duration: 3000,
+  //     style: {
+  //       background: "rgba(255, 255, 255, 0.1)",
+  //       backdropFilter: "blur(8px)",
+  //       border: "1px solid rgba(255, 255, 255, 0.2)",
+  //       color: "#fff",
+  //       borderRadius: "8px",
+  //     },
+  //   }),
+  //   onError: () => toast.error("Failed to send OTP ❌", {
+  //     position: "top-right",
+  //     duration: 3000,
+  //     style: {
+  //       background: "rgba(255, 255, 255, 0.1)",
+  //       backdropFilter: "blur(8px)",
+  //       border: "1px solid rgba(255, 255, 255, 0.2)",
+  //       color: "#fff",
+  //       borderRadius: "8px",
+  //     },
+  //   }),
+  // });
 
   const handleLogin = () => {
     loginMutation.mutate({ email, password });
   };
 
-  const handleForgotPassword = () => {
-    forgotPasswordMutation.mutate({ email });
-  };
+  // const handleForgotPassword = () => {
+  //   forgotPasswordMutation.mutate({ email });
+  // };
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-l from-pink-500 to-blue-500">
@@ -107,12 +107,12 @@ const LoginView = () => {
         </button>
 
         {/* Forgot password */}
-        <p
+        {/* <p
           onClick={handleForgotPassword}
           className="text-sm text-white/80 mt-3 cursor-pointer text-center hover:text-white transition-colors duration-300"
         >
           Forgot password?
-        </p>
+        </p> */}
       </div>
     </div>
   );
