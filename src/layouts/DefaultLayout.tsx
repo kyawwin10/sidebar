@@ -20,7 +20,7 @@ const DefaultLayout = () => {
     !userCredentials ||
     userCredentials.role !== "Admin"
   ) {
-    return <Navigate to="/auth/login" replace />;
+    return <Navigate to="/login" replace />;
   }
 
   return (

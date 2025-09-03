@@ -14,5 +14,5 @@ export const items = [
   { icon: Package, label: 'Products', href: '/products' },
   { icon: Truck, label: 'Delivery', href: '/delivery' },
   { icon: Users, label: 'Users', href: '/user' },
-  { icon: List, label: 'Category', href: '/category' }
+  { icon: List, label: 'Other', href: '/category' },
 ];

@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+// EditProductDialog.tsx
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { Loader2, X } from 'lucide-react';
-import { useQueryClient } from '@tanstack/react-query';
 
 import {
   Dialog,
@@ -26,6 +27,7 @@ import api from '@/api';
 import { UpdateProductDTO } from '@/api/products/types';
 
 interface ProductFormData {
+  productId: string;
   catInstanceId: string;
   brandId: string;
   productName: string;
@@ -37,43 +39,51 @@ interface ProductFormData {
 }
 
 interface EditProductDialogProps {
-  isOpen: boolean;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  editingProductId: string | null;
   onClose: () => void;
-  productId: string | null;
 }
 
-export const EditProductDialog: React.FC<EditProductDialogProps> = ({
-  isOpen,
-  setIsOpen,
+const EditProductDialog: React.FC<EditProductDialogProps> = ({
+  editingProductId,
   onClose,
-  productId,
 }) => {
+  const [isOpen, setIsOpen] = useState(false);
   const queryClient = useQueryClient();
-
-  // Queries - only fetch when dialog is open and productId exists
   const { data: product, isLoading: isProductLoading } = api.products.getProductById.useQuery(
-    productId || '',
+    editingProductId || '',
   );
-  const { data: brands = [], isLoading: isBrandsLoading } = api.products.getbrands.useQuery(
+  const { data: brands = [], isLoading: isBrandsLoading } = api.products.getbrands.useQuery();
+  const { data: categoryInstances = [], isLoading: isCategoriesLoading } = api.products.getCategoryInstances.useQuery();
 
-  );
-  const { data: categoryInstances = [], isLoading: isCategoriesLoading } = api.products.getCategoryInstances.useQuery(
-
-  );
-
-  // Mutations
   const uploadImageMutation = api.products.uploadImage.useMutation();
   const updateProductMutation = api.products.updateProduct.useMutation({
     onSuccess: () => {
-      toast.success('Product updated successfully');
-      // Invalidate all product-related queries
+      toast.success('Product updated successfully', {
+        position: "top-right",
+        duration: 3000,
+        style: {
+          background: "rgba(255, 255, 255, 0.1)",
+          backdropFilter: "blur(8px)",
+          border: "1px solid rgba(255, 255, 255, 0.2)",
+          color: "#fff",
+          borderRadius: "8px",
+        },
+      });
       queryClient.invalidateQueries({ queryKey: ['products'] });
-      queryClient.invalidateQueries({ queryKey: ['product'] });
-      onClose();
+      handleClose();
     },
     onError: (error: Error) => {
-      toast.error('Failed to update product');
+      toast.error('Failed to update product', {
+        position: "top-right",
+        duration: 3000,
+        style: {
+          background: "rgba(255, 255, 255, 0.1)",
+          backdropFilter: "blur(8px)",
+          border: "1px solid rgba(255, 255, 255, 0.2)",
+          color: "#fff",
+          borderRadius: "8px",
+        },
+      });
       console.error('Error updating product:', error);
     },
   });
@@ -82,6 +92,7 @@ export const EditProductDialog: React.FC<EditProductDialogProps> = ({
 
   const { register, handleSubmit, setValue, watch, reset, formState: { errors } } = useForm<ProductFormData>({
     defaultValues: {
+      productId: '',
       catInstanceId: '',
       brandId: '',
       productName: '',
@@ -95,48 +106,32 @@ export const EditProductDialog: React.FC<EditProductDialogProps> = ({
 
   const imagePreview = watch('productImageUrl');
 
-  // Initialize form data when dialog opens or product data is fetched
   useEffect(() => {
-    if (isOpen && product && categoryInstances.length > 0 && brands.length > 0) {
-      const selectedCategory = categoryInstances.find(
-        (cat) => cat.catInstanceName === product.catInstanceName
-      );
-      const selectedBrand = brands.find(
-        (brand) => brand.brandName === product.brandName
-      );
-
-      reset({
-        catInstanceId: selectedCategory?.catInstanceId || '',
-        brandId: selectedBrand?.brandId || '',
-        productName: product.productName || '',
-        productDescription: product.productDescription || '',
-        stockQTY: product.stockQTY || 0,
-        cost: product.cost || 0,
-        price: product.price || 0,
-        productImageUrl: product.productImageUrl || '',
-      });
+    if (editingProductId) {
+      setIsOpen(true);
+    } else {
+      setIsOpen(false);
     }
-  }, [isOpen, product, categoryInstances, brands, reset]);
+  }, [editingProductId]);
 
-  // Reset form when dialog closes
   useEffect(() => {
-    if (!isOpen) {
-      reset();
+    if (product && editingProductId) {
+      setValue('productId', product.productId || '');
+      setValue('catInstanceId', categoryInstances.find(cat => cat.catInstanceName === product.catInstanceName)?.catInstanceId || '');
+      setValue('brandId', brands.find(brand => brand.brandName === product.brandName)?.brandId || '');
+      setValue('productName', product.productName || '');
+      setValue('productDescription', product.productDescription || '');
+      setValue('stockQTY', product.stockQTY || 0);
+      setValue('cost', product.cost || 0);
+      setValue('price', product.price || 0);
+      setValue('productImageUrl', product.productImageUrl || '');
     }
-  }, [isOpen, reset]);
+  }, [product, categoryInstances, brands, setValue, editingProductId]);
 
   const handleClose = () => {
-    // Reset form state
     reset();
-    // Call parent onClose
+    setIsOpen(false);
     onClose();
-  };
-
-  const handleDialogOpenChange = (open: boolean) => {
-    setIsOpen(open);
-    if (!open) {
-      handleClose();
-    }
   };
 
   const handleImageUpload = async (file: File) => {
@@ -144,34 +139,50 @@ export const EditProductDialog: React.FC<EditProductDialogProps> = ({
       const result = await uploadImageMutation.mutateAsync(file);
       const fullImageUrl = `https://localhost:7108/api/${result.url}`;
       setValue('productImageUrl', fullImageUrl);
-      toast.success('Image uploaded successfully');
+      toast.success('Image uploaded successfully', {
+        position: "top-right",
+        duration: 3000,
+        style: {
+          background: "rgba(255, 255, 255, 0.1)",
+          backdropFilter: "blur(8px)",
+          border: "1px solid rgba(255, 255, 255, 0.2)",
+          color: "#fff",
+          borderRadius: "8px",
+        },
+      });
     } catch (error) {
-      toast.error('Failed to upload image');
+      toast.error('Failed to upload image', {
+        position: "top-right",
+        duration: 3000,
+        style: {
+          background: "rgba(255, 255, 255, 0.1)",
+          backdropFilter: "blur(8px)",
+          border: "1px solid rgba(255, 255, 255, 0.2)",
+          color: "#fff",
+          borderRadius: "8px",
+        },
+      });
       console.error('Upload error:', error);
     }
   };
 
   const onSubmit = async (data: ProductFormData) => {
-    if (!productId) {
-      toast.error('No product selected for editing');
-      return;
+    const updateData: UpdateProductDTO = data;
+    try {
+      await updateProductMutation.mutateAsync(updateData);
+    } catch (error) {
+      console.error('Submit error:', error);
     }
-
-    const updateData: UpdateProductDTO = {
-      productId,
-      ...data,
-    };
-    
-    updateProductMutation.mutate(updateData);
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={handleDialogOpenChange}>
-      <DialogContent className="max-w-2xl">
+    <Dialog open={isOpen} onOpenChange={(open) => !open && handleClose()}>
+      <DialogContent className="max-w-2xl backdrop-blur-md bg-white/20 border border-white/30">
         <DialogHeader>
           <DialogTitle>Edit Product</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <input type="hidden" {...register('productId')} />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="productName">Product Name</Label>
@@ -336,10 +347,16 @@ export const EditProductDialog: React.FC<EditProductDialogProps> = ({
             )}
           </div>
           <div className="flex justify-end space-x-2 pt-4">
-            <Button type="button" variant="outline" onClick={handleClose} disabled={isLoading}>
+            <Button 
+              type="button" 
+              variant="outline" 
+              onClick={handleClose} 
+              disabled={isLoading}
+              className="bg-white/30 backdrop-blur-md border-white/30 hover:bg-white/40"
+            >
               Cancel
             </Button>
-            <Button type="submit" disabled={isLoading || !productId}>
+            <Button type="submit" disabled={isLoading}>
               {isLoading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
               Update Product
             </Button>
@@ -349,3 +366,5 @@ export const EditProductDialog: React.FC<EditProductDialogProps> = ({
     </Dialog>
   );
 };
+
+export default EditProductDialog;
