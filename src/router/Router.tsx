@@ -6,6 +6,7 @@ import { RouterProvider, createBrowserRouter, Navigate } from 'react-router-dom'
 import DeliveryView from '@/modules/delivery/DeliveryView';
 import UserView from '@/modules/user/UserView';
 import CategoryViex from '@/modules/category/CategoryViex';
+import DeliveryLayout from '@/layouts/DeliveryLayout';
 
 const Router = () => {
 
@@ -24,6 +25,10 @@ const Router = () => {
     {
       path: '/login',
       element: <LoginView />,
+    },
+    {
+      path: '/deliverylayout',
+      element: <DeliveryLayout />,
     },
     {
       path: '*',

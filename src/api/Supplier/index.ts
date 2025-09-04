@@ -1,9 +1,20 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { AddSupplierDTO, SupplierHistoryDTO } from "./type";
+import { AddSupplierDTO, Supplier, SupplierHistoryDTO } from "./type";
 
 
 export const supplierApi = {
+
+
+  useGetAllSuppliers: () => {
+    return useQuery<Supplier[], Error>({
+      queryKey: ['suppliers'],
+      queryFn: async () => {
+        const res = await axios.get('User/allsupplier');
+        return res.data.data;
+      },
+    });
+  },
   // ✅ Get supplier history
   useSupplierHistory: () => {
     return useQuery<SupplierHistoryDTO[], Error>({
@@ -14,6 +25,9 @@ export const supplierApi = {
       },
     });
   },
+
+
+
 
   // ✅ Add supplier
   useAddSupplier: () => {
@@ -28,4 +42,6 @@ export const supplierApi = {
       },
     });
   },
+
+
 };

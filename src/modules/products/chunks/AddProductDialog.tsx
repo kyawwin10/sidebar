@@ -34,6 +34,7 @@ interface ProductFormData {
   cost: number;
   price: number;
   productImageUrl: string;
+  supplierid: string;
 }
 
 interface AddProductDialogProps {
@@ -51,20 +52,22 @@ export const AddProductDialog: React.FC<AddProductDialogProps> = ({
 }) => {
   const queryClient = useQueryClient();
   const { data: brands = [], isLoading: isBrandsLoading } = api.products.getbrands.useQuery();
+// In AddProductDialog.tsx
+const { data: suppliers = [], isLoading: isSuppliersLoading } = api.supplier.supplierApi.useGetAllSuppliers();
   const uploadImageMutation = api.products.uploadImage.useMutation();
-const addProductMutation = api.products.addProduct.useMutation({
-  onSuccess: () => {
-    toast.success('Product added successfully');
-    queryClient.invalidateQueries({ queryKey: ['products'] });
-    handleClose();
-  },
-  onError: (error: Error) => {
-    toast.error('Failed to add product');
-    console.error('Error adding product:', error);
-  },
-});
+  const addProductMutation = api.products.addProduct.useMutation({
+    onSuccess: () => {
+      toast.success('Product added successfully');
+      queryClient.invalidateQueries({ queryKey: ['products'] });
+      handleClose();
+    },
+    onError: (error: Error) => {
+      toast.error('Failed to add product');
+      console.error('Error adding product:', error);
+    },
+  });
 
-  const isLoading = uploadImageMutation.isPending || addProductMutation.isPending || isBrandsLoading;
+  const isLoading = uploadImageMutation.isPending || addProductMutation.isPending || isBrandsLoading || isSuppliersLoading;
 
   const { register, handleSubmit, setValue, watch, reset, formState: { errors } } = useForm<ProductFormData>({
     defaultValues: {
@@ -76,6 +79,7 @@ const addProductMutation = api.products.addProduct.useMutation({
       cost: 0,
       price: 0,
       productImageUrl: '',
+      supplierid: '',
     },
   });
 
@@ -176,6 +180,31 @@ const addProductMutation = api.products.addProduct.useMutation({
               </Select>
               {errors.brandId && (
                 <p className="text-red-500 text-xs">{errors.brandId.message}</p>
+              )}
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="supplierid">Supplier</Label>
+              <Select
+                value={watch('supplierid')}
+                onValueChange={(value) => setValue('supplierid', value)}
+                disabled={isLoading || suppliers.length === 0}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder={suppliers.length === 0 ? 'Loading suppliers...' : 'Select supplier'} />
+                </SelectTrigger>
+                <SelectContent>
+                  {suppliers.map((supplier) => (
+                    <SelectItem
+                      key={supplier.supplierId}
+                      value={supplier.supplierId || ''}
+                    >
+                      {supplier.supplierName}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              {errors.supplierid && (
+                <p className="text-red-500 text-xs">{errors.supplierid.message}</p>
               )}
             </div>
             <div className="space-y-2">

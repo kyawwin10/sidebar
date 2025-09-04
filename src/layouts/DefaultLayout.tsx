@@ -7,6 +7,9 @@ import { cn } from "@/lib/utils";
 import { useEffect } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 
+
+
+
 const DefaultLayout = () => {
   const { theme } = useThemeStore();
   const { isAuthenticated, userCredentials } = useAuth();
@@ -15,11 +18,15 @@ const DefaultLayout = () => {
     document.documentElement.classList.toggle("dark", theme === "dark");
   }, [theme]);
 
-  if (
-    !isAuthenticated ||
-    !userCredentials ||
-    userCredentials.role !== "Admin"
-  ) {
+  // Redirect if not authenticated or no user credentials
+  if (!isAuthenticated || !userCredentials) {
+    return <Navigate to="/login" replace />;
+  }
+
+  // Redirect based on user role
+  if (userCredentials.role === "Delivery") {
+    return <Navigate to="/deliverylayout" replace />;
+  } else if (userCredentials.role !== "Admin") {
     return <Navigate to="/login" replace />;
   }
 

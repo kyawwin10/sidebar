@@ -1,12 +1,16 @@
 import { useQuery, useMutation, useQueryClient, UseQueryOptions } from "@tanstack/react-query";
 
-import { AddUserDTO, User } from "./type";
+import { AddUserDTO, UserDTO } from "./type";
 import axios from "axios";
 
 export const userApi = {
+    getUser: async (userId: string): Promise<UserDTO> => {
+    const res = await axios.get(`/User/${userId}`);
+    return res.data;
+  },
   // ✅ Get all users
-  useQuery: (opt?: UseQueryOptions<User[], Error>) => {
-    return useQuery<User[], Error>({
+  useQuery: (opt?: UseQueryOptions<UserDTO[], Error>) => {
+    return useQuery<UserDTO[], Error>({
       queryKey: ["users"],
       queryFn: async () => {
         const res = await axios.get("/User"); // Base URL already set
