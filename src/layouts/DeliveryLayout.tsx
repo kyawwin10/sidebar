@@ -3,13 +3,10 @@ import { Button } from "@/components/ui/button";
 import {
   useOrdersByStatus,
   useAllOrders,
-  useAcceptOrder,
-  useCompleteOrder,
-  useRejectOrder,
+  useDeliveryAccess, // ✅ single hook handles accept/complete/reject
 } from "@/api/delivery";
 import VoucherView from "@/modules/delivery/chunks/VoucherView";
 import DeliveryNavBar from "@/components/DeliveryNavBar";
-
 
 const DeliveryLayout = () => {
   const [activeTab, setActiveTab] = useState("orders");
@@ -18,9 +15,7 @@ const DeliveryLayout = () => {
   const { data: orders = [] } = useOrdersByStatus("ordered");
   const { data: deliveredOrders = [] } = useAllOrders();
 
-  const acceptOrder = useAcceptOrder();
-  const completeOrder = useCompleteOrder();
-  const rejectOrder = useRejectOrder();
+  const deliveryAccess = useDeliveryAccess(); // ✅ new mutation
 
   return (
     <div className="min-h-screen bg-white">
@@ -76,7 +71,10 @@ const DeliveryLayout = () => {
                         <Button
                           size="sm"
                           onClick={() =>
-                            acceptOrder.mutate(order.orderId as string)
+                            deliveryAccess.mutate({
+                              orderId: order.orderId as string,
+                              status: "Accept",
+                            })
                           }
                         >
                           Accept
@@ -118,7 +116,10 @@ const DeliveryLayout = () => {
                         <Button
                           size="sm"
                           onClick={() =>
-                            completeOrder.mutate(order.orderId as string)
+                            deliveryAccess.mutate({
+                              orderId: order.orderId as string,
+                              status: "Complete",
+                            })
                           }
                         >
                           Complete
@@ -127,7 +128,10 @@ const DeliveryLayout = () => {
                           size="sm"
                           variant="destructive"
                           onClick={() =>
-                            rejectOrder.mutate(order.orderId as string)
+                            deliveryAccess.mutate({
+                              orderId: order.orderId as string,
+                              status: "Reject",
+                            })
                           }
                         >
                           Reject

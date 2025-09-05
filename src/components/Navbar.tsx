@@ -10,7 +10,7 @@ import { UserDTO } from "@/api/user/type";
 
 export const Navbar = () => {
   const { theme, toggleTheme } = useThemeStore();
-  const { userCredentials, userLogout } = useAuth();
+  const { userCredentials } = useAuth();
   const [open, setOpen] = useState(false);
   const [user, setUser] = useState<UserDTO | null>(null);
 
@@ -54,12 +54,6 @@ export const Navbar = () => {
                 <div className="px-4 py-2 text-gray-700 dark:text-gray-300">
                   Role: <span className="font-medium">{userCredentials?.role}</span>
                 </div>
-                <button
-                  onClick={userLogout}
-                  className="block px-4 py-2 hover:bg-gray-100 w-full text-left text-red-500 "
-                >
-                  Logout
-                </button>
               </>
             ) : (
               <div className="px-4 py-3 text-gray-500">Loading...</div>

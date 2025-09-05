@@ -43,12 +43,17 @@ export const useVoucherByOrderId = (orderId: string) => {
 };
 
 // ✅ Accept Order (Delivery access)
-export const useAcceptOrder = () => {
+export const useDeliveryAccess = () => {
   const queryClient = useQueryClient();
+
   return useMutation({
-    mutationFn: async (orderId: string) => {
+    mutationFn: async (payload: { orderId: string; status: string }) => {
       const res = await axios.post(
-        `https://localhost:7108/api/Order/delivery-access?orderId=${orderId}`
+        "https://localhost:7108/api/Order/delivery-access",
+        {
+          orderId: payload.orderId,
+          status: payload.status,
+        }
       );
       return res.data;
     },
@@ -59,34 +64,6 @@ export const useAcceptOrder = () => {
   });
 };
 
-// ✅ Complete Order
-export const useCompleteOrder = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: async (orderId: string) => {
-      const res = await axios.post(
-        `https://localhost:7108/api/Order/complete/${orderId}`
-      );
-      return res.data;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["orders", "all"] });
-    },
-  });
-};
 
-// ✅ Reject Order
-export const useRejectOrder = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: async (orderId: string) => {
-      const res = await axios.post(
-        `https://localhost:7108/api/Order/reject/${orderId}`
-      );
-      return res.data;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["orders", "all"] });
-    },
-  });
-};
+// ✅ Complete Order
+
