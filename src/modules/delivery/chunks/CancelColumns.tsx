@@ -13,7 +13,7 @@ import { Order } from "@/api/delivery/types";
 import VoucherView from "./VoucherView";
 
 const CancelColumns: React.FC = () => {
-  const { data = [], isLoading, error } = api.delivery.useOrdersByStatus("rejected");
+  const { data = [], isLoading, error } = api.delivery.useOrdersByStatus("reject");
 
   const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
 
