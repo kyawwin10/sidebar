@@ -9,7 +9,9 @@ import api from "@/api";
 const ROWS_PER_PAGE = 7;
 
 const CategoryView = () => {
-  const [tab, setTab] = useState<"brand" | "category" | "supplier" | "doctor" | "booking">("brand");
+  const [tab, setTab] = useState<
+    "brand" | "category" | "supplier" | "doctor" | "booking"
+  >("brand");
   const [openBrandDialog, setOpenBrandDialog] = useState(false);
   const [openCategoryDialog, setOpenCategoryDialog] = useState(false);
   const [openDoctorDialog, setOpenDoctorDialog] = useState(false);
@@ -38,12 +40,18 @@ const CategoryView = () => {
   // Get current data and total pages
   const getData = () => {
     switch (tab) {
-      case "brand": return brands || [];
-      case "category": return categories || [];
-      case "supplier": return suppliers || [];
-      case "doctor": return doctors || [];
-      case "booking": return bookings || [];
-      default: return [];
+      case "brand":
+        return brands || [];
+      case "category":
+        return categories || [];
+      case "supplier":
+        return suppliers || [];
+      case "doctor":
+        return doctors || [];
+      case "booking":
+        return bookings || [];
+      default:
+        return [];
     }
   };
 
@@ -53,21 +61,45 @@ const CategoryView = () => {
     <div className="flex gap-6  h-auto overflow-y-hidden text-white">
       {/* Sidebar */}
       <div className="flex flex-col gap-4 p-4 bg-white/10 rounded-2xl shadow-lg">
-        <button onClick={() => setOpenBrandDialog(true)} className="px-4 py-2 rounded-xl bg-blue-500/70">➕ Add Brand</button>
-        <button onClick={() => setOpenCategoryDialog(true)} className="px-4 py-2 rounded-xl bg-green-500/70">➕ Add Category</button>
-        <button onClick={() => setOpenDoctorDialog(true)} className="px-4 py-2 rounded-xl bg-purple-500/70">➕ Add Doctor</button>
-        <button onClick={() => setOpenSupplierDialog(true)} className="px-4 py-2 rounded-xl bg-orange-500/70">➕ Add Supplier</button>
+        <button
+          onClick={() => setOpenBrandDialog(true)}
+          className="px-4 py-2 rounded-xl bg-blue-500/70"
+        >
+          ➕ Add Brand
+        </button>
+        <button
+          onClick={() => setOpenCategoryDialog(true)}
+          className="px-4 py-2 rounded-xl bg-green-500/70"
+        >
+          ➕ Add Category
+        </button>
+        <button
+          onClick={() => setOpenDoctorDialog(true)}
+          className="px-4 py-2 rounded-xl bg-purple-500/70"
+        >
+          ➕ Add Doctor
+        </button>
+        <button
+          onClick={() => setOpenSupplierDialog(true)}
+          className="px-4 py-2 rounded-xl bg-orange-500/70"
+        >
+          ➕ Add Supplier
+        </button>
       </div>
 
       {/* Main Content */}
       <div className="flex-1 p-6 bg-white/10 rounded-2xl shadow-xl">
         {/* Tabs */}
         <div className="flex gap-6 border-b border-gray-600 mb-4">
-          {["brand", "category", "supplier", "doctor", "booking"].map((t) => (
+          {["brand", "category", "supplier", "doctor"].map((t) => (
             <button
               key={t}
               onClick={() => changeTab(t as typeof tab)}
-              className={`pb-2 ${tab === t ? "border-b-2 border-blue-400 font-semibold" : "text-white"}`}
+              className={`pb-2 ${
+                tab === t
+                  ? "border-b-2 border-blue-400 font-semibold"
+                  : "text-white"
+              }`}
             >
               {t.charAt(0).toUpperCase() + t.slice(1)}s
             </button>
@@ -82,33 +114,44 @@ const CategoryView = () => {
                 <tr>
                   <th className="px-3 py-2 border border-gray-600">No</th>
                   <th className="px-3 py-2 border border-gray-600">BrandId</th>
-                  <th className="px-3 py-2 border border-gray-600">BrandName</th>
+                  <th className="px-3 py-2 border border-gray-600">
+                    BrandName
+                  </th>
                 </tr>
               )}
               {tab === "category" && (
                 <tr>
                   <th className="px-3 py-2 border border-gray-600">No</th>
-                  <th className="px-3 py-2 border border-gray-600">CategoryId</th>
-                  <th className="px-3 py-2 border border-gray-600">CategoryName</th>
+                  <th className="px-3 py-2 border border-gray-600">
+                    CategoryId
+                  </th>
+                  <th className="px-3 py-2 border border-gray-600">
+                    CategoryName
+                  </th>
                 </tr>
               )}
               {tab === "supplier" && (
                 <tr>
                   <th className="px-3 py-2 border border-gray-600">No</th>
-                  <th className="px-3 py-2 border border-gray-600">SupplierName</th>
-                  <th className="px-3 py-2 border border-gray-600">ProductCount</th>
+                  <th className="px-3 py-2 border border-gray-600">
+                    SupplierName
+                  </th>
+                  <th className="px-3 py-2 border border-gray-600">
+                    ProductCount
+                  </th>
                 </tr>
               )}
               {tab === "doctor" && (
                 <tr>
                   <th className="px-3 py-2 border border-gray-600">No</th>
+                  <th className="px-3 py-2 border border-gray-600">Image</th>
                   <th className="px-3 py-2 border border-gray-600">Name</th>
                   <th className="px-3 py-2 border border-gray-600">Store</th>
                   <th className="px-3 py-2 border border-gray-600">Phone</th>
                   <th className="px-3 py-2 border border-gray-600">Email</th>
                 </tr>
               )}
-              {tab === "booking" && (
+              {/* {tab === "booking" && (
                 <tr>
                   <th className="px-3 py-2 border border-gray-600">No</th>
                   <th className="px-3 py-2 border border-gray-600">BookingDate</th>
@@ -119,48 +162,87 @@ const CategoryView = () => {
                   <th className="px-3 py-2 border border-gray-600">Store</th>
                   <th className="px-3 py-2 border border-gray-600">Description</th>
                 </tr>
-              )}
+              )} */}
             </thead>
             <tbody className="divide-y divide-gray-700">
               {tab === "brand" &&
                 paginate(brands)?.map((b, i) => (
                   <tr key={b.brandId}>
-                    <td className="px-3 py-2 border border-gray-600">{(page - 1) * ROWS_PER_PAGE + i + 1}</td>
-                    <td className="px-3 py-2 border border-gray-600">{b.brandId}</td>
-                    <td className="px-3 py-2 border border-gray-600">{b.brandName}</td>
+                    <td className="px-3 py-2 border border-gray-600">
+                      {(page - 1) * ROWS_PER_PAGE + i + 1}
+                    </td>
+                    <td className="px-3 py-2 border border-gray-600">
+                      {b.brandId}
+                    </td>
+                    <td className="px-3 py-2 border border-gray-600">
+                      {b.brandName}
+                    </td>
                   </tr>
                 ))}
 
               {tab === "category" &&
                 paginate(categories)?.map((c, i) => (
                   <tr key={c.catId}>
-                    <td className="px-3 py-2 border border-gray-600">{(page - 1) * ROWS_PER_PAGE + i + 1}</td>
-                    <td className="px-3 py-2 border border-gray-600">{c.catId}</td>
-                    <td className="px-3 py-2 border border-gray-600">{c.catName}</td>
+                    <td className="px-3 py-2 border border-gray-600">
+                      {(page - 1) * ROWS_PER_PAGE + i + 1}
+                    </td>
+                    <td className="px-3 py-2 border border-gray-600">
+                      {c.catId}
+                    </td>
+                    <td className="px-3 py-2 border border-gray-600">
+                      {c.catName}
+                    </td>
                   </tr>
                 ))}
 
               {tab === "supplier" &&
                 paginate(suppliers)?.map((s, i) => (
                   <tr key={i}>
-                    <td className="px-3 py-2 border border-gray-600">{(page - 1) * ROWS_PER_PAGE + i + 1}</td>
-                    <td className="px-3 py-2 border border-gray-600">{s.supplierName}</td>
-                    <td className="px-3 py-2 border border-gray-600">{s.productCount}</td>
+                    <td className="px-3 py-2 border border-gray-600">
+                      {(page - 1) * ROWS_PER_PAGE + i + 1}
+                    </td>
+                    <td className="px-3 py-2 border border-gray-600">
+                      {s.supplierName}
+                    </td>
+                    <td className="px-3 py-2 border border-gray-600">
+                      {s.productCount}
+                    </td>
                   </tr>
                 ))}
 
               {tab === "doctor" &&
                 paginate(doctors)?.map((d, i) => (
                   <tr key={d.doctorId}>
-                    <td className="px-3 py-2 border border-gray-600">{(page - 1) * ROWS_PER_PAGE + i + 1}</td>
-                    <td className="px-3 py-2 border border-gray-600">{d.name}</td>
-                    <td className="px-3 py-2 border border-gray-600">{d.storeName}</td>
-                    <td className="px-3 py-2 border border-gray-600">{d.phoneNumber}</td>
-                    <td className="px-3 py-2 border border-gray-600">{d.email}</td>
+                    <td className="px-3 py-2 border border-gray-600">
+                      {(page - 1) * ROWS_PER_PAGE + i + 1}
+                    </td>
+                    <td className="px-3 py-2 border border-gray-600">
+                      {d.profileImageUrl ? (
+                        <img
+                          src={d.profileImageUrl}
+                          alt={d.name}
+                          className="w-12 h-12 object-cover rounded-full border"
+                        />
+                      ) : (
+                        <span className="text-gray-400">No Image</span>
+                      )}
+                    </td>
+                    <td className="px-3 py-2 border border-gray-600">
+                      {d.name}
+                    </td>
+                    <td className="px-3 py-2 border border-gray-600">
+                      {d.storeName}
+                    </td>
+                    <td className="px-3 py-2 border border-gray-600">
+                      {d.phoneNumber}
+                    </td>
+                    <td className="px-3 py-2 border border-gray-600">
+                      {d.email}
+                    </td>
                   </tr>
                 ))}
 
-              {tab === "booking" &&
+              {/* {tab === "booking" &&
                 paginate(bookings)?.map((bk, i) => (
                   <tr key={i}>
                     <td className="px-3 py-2 border border-gray-600">{(page - 1) * ROWS_PER_PAGE + i + 1}</td>
@@ -172,7 +254,7 @@ const CategoryView = () => {
                     <td className="px-3 py-2 border border-gray-600">{bk.storeName}</td>
                     <td className="px-3 py-2 border border-gray-600">{bk.bookingDescription}</td>
                   </tr>
-                ))}
+                ))} */}
             </tbody>
           </table>
         </div>
@@ -200,10 +282,18 @@ const CategoryView = () => {
       </div>
 
       {/* Dialogs */}
-      {openBrandDialog && <AddBrandDialog onClose={() => setOpenBrandDialog(false)} />}
-      {openCategoryDialog && <AddCategoryDialog onClose={() => setOpenCategoryDialog(false)} />}
-      {openDoctorDialog && <AddDoctorDialog onClose={() => setOpenDoctorDialog(false)} />}
-      {openSupplierDialog && <AddSupplierDialog onClose={() => setOpenSupplierDialog(false)} />}
+      {openBrandDialog && (
+        <AddBrandDialog onClose={() => setOpenBrandDialog(false)} />
+      )}
+      {openCategoryDialog && (
+        <AddCategoryDialog onClose={() => setOpenCategoryDialog(false)} />
+      )}
+      {openDoctorDialog && (
+        <AddDoctorDialog onClose={() => setOpenDoctorDialog(false)} />
+      )}
+      {openSupplierDialog && (
+        <AddSupplierDialog onClose={() => setOpenSupplierDialog(false)} />
+      )}
     </div>
   );
 };

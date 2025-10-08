@@ -7,6 +7,7 @@ export interface Doctor {
   storeName: string;
   phoneNumber: string;
   email: string;
+  profileImageUrl: string;
 }
 
 export interface AddDoctorDTO {
@@ -16,6 +17,7 @@ export interface AddDoctorDTO {
   storeName: string;
   phoneNumber: string;
   email: string;
+  profileImageUrl: string;
 }
 
 export interface Booking {

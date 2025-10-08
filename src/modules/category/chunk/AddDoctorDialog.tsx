@@ -1,5 +1,10 @@
 import { useForm } from "react-hook-form";
 import api from "@/api";
+import { Label } from "recharts";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { X, Loader2 } from "lucide-react";
+import { useState } from "react";
 
 interface Props {
   onClose: () => void;
@@ -12,11 +17,33 @@ interface AddDoctorForm {
   storeName: string;
   phoneNumber: string;
   email: string;
+  profileImageUrl: string;
 }
 
 const AddDoctorDialog = ({ onClose }: Props) => {
-  const { register, handleSubmit, formState: { errors } } = useForm<AddDoctorForm>();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<AddDoctorForm>();
   const addDoctor = api.booking.bookingApi.useAddDoctor();
+
+  const [imagePreview, setImagePreview] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  // Dummy upload handler, replace with your actual upload logic
+  const handleImageUpload = async (file: File) => {
+    setIsLoading(true);
+    // Simulate upload delay
+    setTimeout(() => {
+      const url = URL.createObjectURL(file); // For preview only
+      setImagePreview(url);
+      setValue("profileImageUrl", url); // Set the image URL in the form
+      setIsLoading(false);
+    }, 1000);
+    // If you have an API, upload and get the URL, then setValue("profileImageUrl", url)
+  };
 
   const onSubmit = (data: AddDoctorForm) => {
     addDoctor.mutate(data, {
@@ -32,6 +59,48 @@ const AddDoctorDialog = ({ onClose }: Props) => {
         <h2 className="text-xl font-bold mb-4">➕ Add Doctor</h2>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div className="space-y-2">
+            <Label>Profile Image</Label>
+            <div className="flex items-center space-x-4">
+              <div className="flex-1">
+                <Input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) handleImageUpload(file);
+                  }}
+                  disabled={isLoading}
+                />
+              </div>
+              {isLoading && (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              )}
+            </div>
+            {imagePreview && (
+              <div className="relative w-24 h-24 border rounded-lg overflow-hidden">
+                <img
+                  src={imagePreview}
+                  alt="Preview"
+                  className="w-full h-full object-cover"
+                />
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="absolute top-0 right-0 h-6 w-6 p-0 bg-red-500 hover:bg-red-600 text-white"
+                  onClick={() => {
+                    setImagePreview("");
+                    setValue("profileImageUrl", "");
+                  }}
+                  disabled={isLoading}
+                >
+                  <X className="w-3 h-3" />
+                </Button>
+              </div>
+            )}
+          </div>
+
           <div>
             <label className="block mb-1">Doctor Name</label>
             <input
@@ -39,7 +108,9 @@ const AddDoctorDialog = ({ onClose }: Props) => {
               className="w-full px-3 py-2 rounded-lg border border-gray-300"
               placeholder="Enter doctor name"
             />
-            {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
+            {errors.name && (
+              <p className="text-red-500 text-sm">{errors.name.message}</p>
+            )}
           </div>
 
           <div>
@@ -62,21 +133,33 @@ const AddDoctorDialog = ({ onClose }: Props) => {
             <div>
               <label className="block mb-1">Store Name</label>
               <input
-                {...register("storeName", { required: "Store name is required" })}
+                {...register("storeName", {
+                  required: "Store name is required",
+                })}
                 className="w-full px-3 py-2 rounded-lg border border-gray-300"
               />
-              {errors.storeName && <p className="text-red-500 text-sm">{errors.storeName.message}</p>}
+              {errors.storeName && (
+                <p className="text-red-500 text-sm">
+                  {errors.storeName.message}
+                </p>
+              )}
             </div>
           </div>
 
           <div>
             <label className="block mb-1">Phone Number</label>
             <input
-              {...register("phoneNumber", { required: "Phone number is required" })}
+              {...register("phoneNumber", {
+                required: "Phone number is required",
+              })}
               className="w-full px-3 py-2 rounded-lg border border-gray-300"
               placeholder="+95..."
             />
-            {errors.phoneNumber && <p className="text-red-500 text-sm">{errors.phoneNumber.message}</p>}
+            {errors.phoneNumber && (
+              <p className="text-red-500 text-sm">
+                {errors.phoneNumber.message}
+              </p>
+            )}
           </div>
 
           <div>
@@ -87,7 +170,9 @@ const AddDoctorDialog = ({ onClose }: Props) => {
               className="w-full px-3 py-2 rounded-lg border border-gray-300"
               placeholder="doctor@example.com"
             />
-            {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
+            {errors.email && (
+              <p className="text-red-500 text-sm">{errors.email.message}</p>
+            )}
           </div>
 
           <div className="flex justify-end gap-3 mt-4">
