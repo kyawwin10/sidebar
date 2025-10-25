@@ -36,8 +36,8 @@ const DefaultLayout = () => {
         className={cn(
           "flex h-screen overflow-hidden",
           theme === "dark"
-            ? "bg-gradient-to-l from-pink-500 to-blue-500"
-            : "bg-gradient-to-l from-blue-500 to-pink-300"
+            ? "bg-gradient-to-br from-[#4da0b0] to-[#D39D38]"
+            : "bg-gradient-to-r from-[#abbaab] to-[#ffffff]"
         )}
       >
         <Sidebar />
@@ -45,8 +45,8 @@ const DefaultLayout = () => {
           className={cn(
             "flex flex-col flex-1 overflow-hidden",
             theme === "dark"
-              ? "bg-gradient-to-l from-pink-500 to-blue-500"
-              : "bg-gradient-to-l from-blue-500 to-pink-300"
+              ? "bg-gradient-to-r from-[#eef2f3] to-[#8e9eab]"
+              : "bg-gradient-to-r from-[#ffefba] to-[#ffffff]"
           )}
         >
           <Navbar />

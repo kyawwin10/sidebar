@@ -35,14 +35,12 @@ const AddDoctorDialog = ({ onClose }: Props) => {
   // Dummy upload handler, replace with your actual upload logic
   const handleImageUpload = async (file: File) => {
     setIsLoading(true);
-    // Simulate upload delay
     setTimeout(() => {
-      const url = URL.createObjectURL(file); // For preview only
+      const url = URL.createObjectURL(file);
       setImagePreview(url);
-      setValue("profileImageUrl", url); // Set the image URL in the form
+      setValue("profileImageUrl", url);
       setIsLoading(false);
     }, 1000);
-    // If you have an API, upload and get the URL, then setValue("profileImageUrl", url)
   };
 
   const onSubmit = (data: AddDoctorForm) => {

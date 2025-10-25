@@ -65,25 +65,25 @@ const CategoryView = () => {
           onClick={() => setOpenBrandDialog(true)}
           className="px-4 py-2 rounded-xl bg-blue-500/70"
         >
-          ➕ Add Brand
+          Add Brand
         </button>
         <button
           onClick={() => setOpenCategoryDialog(true)}
           className="px-4 py-2 rounded-xl bg-green-500/70"
         >
-          ➕ Add Category
+          Add Category
         </button>
         <button
           onClick={() => setOpenDoctorDialog(true)}
           className="px-4 py-2 rounded-xl bg-purple-500/70"
         >
-          ➕ Add Doctor
+          Add Doctor
         </button>
         <button
           onClick={() => setOpenSupplierDialog(true)}
           className="px-4 py-2 rounded-xl bg-orange-500/70"
         >
-          ➕ Add Supplier
+          Add Supplier
         </button>
       </div>
 

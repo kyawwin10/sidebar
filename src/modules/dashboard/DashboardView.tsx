@@ -86,8 +86,7 @@ const donutData = useMemo(() => ({
   }
 
   return (
-    <div className="space-y-8">
-      <h1 className="text-2xl font-bold">Hi, Welcome back 👋</h1>
+    <div className="space-y-4">
 
       {/* Metric Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">

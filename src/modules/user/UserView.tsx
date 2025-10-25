@@ -11,9 +11,9 @@ const UserView: React.FC = () => {
   return (
     <div className="w-full max-w-7xl mx-auto">
       {/* Header */}
-      <div className="flex justify-between items-center mb-6 px-4 py-3 rounded-2xl backdrop-blur-lg bg-white/10 border border-white/30 shadow-md">
-        <h2 className="text-xl font-bold text-white">User Management</h2>
-        <Button onClick={() => setIsDialogOpen(true)}>+ Add User</Button>
+      <div className="flex justify-between items-center mb-6 px-4 py-3 rounded-2xl bg-white/10 border border-[#dcdcdc]">
+        <h2 className="text-lg text-white">User Management</h2>
+        <Button onClick={() => setIsDialogOpen(true)}>Add User</Button>
       </div>
 
       {/* User Table */}

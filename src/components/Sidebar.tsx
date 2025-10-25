@@ -1,5 +1,3 @@
-
-
 import { items } from '@/constants';
 import { useSidebarStore } from '@/lib/sidebar';
 import { LogOut, PanelLeftClose, PanelLeftOpen } from 'lucide-react';
@@ -55,12 +53,12 @@ export const Sidebar = () => {
       </div>
 
       {/* Footer Logout */}
-      <div className="p-2 text-sm text-muted-foreground">
+      <div className="p-2 text-sm text-[#ffffff] hover:text-black">
         <button
           onClick={() => handleLogout()}
           className={`flex items-center w-full ${
             isCollapsed ? 'justify-center' : 'gap-2'
-          } p-2 rounded-md hover:text-red-500 transition`}
+          } p-2 rounded-md transition`}
         >
           <LogOut size={16} />
           {!isCollapsed && 'Logout'}
