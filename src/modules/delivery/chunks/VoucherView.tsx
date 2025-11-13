@@ -486,7 +486,7 @@ const VoucherView: React.FC<VoucherViewProps> = ({ orderId, onClose }) => {
                         </td>
                         <td className="py-3 px-4 text-center">
                           <Badge variant="outline" className="bg-gray-100">
-                            {od.qty}
+                            <p className="text-black">{od.qty}</p>
                           </Badge>
                         </td>
                         <td className="py-3 px-4 text-right text-gray-600">${od.price.toFixed(2)}</td>
